@@ -32,7 +32,7 @@ def concat(x: list[int], y: list[int]) -> list[int]:
 
 def sub(int_list: list[int], start_index: int, end_index: int) -> list[int]:
     """Generate a list that contains elements between the specified start index and the end index - 1."""
-    new_list: list[int] = list()
+    new_list: list[int] = []
     if start_index <= end_index - 1:
         if int_list == list() or start_index >= len(int_list) - 1:
             return list()
