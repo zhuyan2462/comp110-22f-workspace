@@ -6,7 +6,7 @@ from exercises.ex09 import constants
 from math import sin, cos, pi
 
 
-__author__ = ""  # TODO
+__author__ = "730615250"  # TODO
 
 
 class Point:
@@ -59,7 +59,7 @@ class Model:
     def __init__(self, cells: int, speed: float):
         """Initialize the cells with random locations and directions."""
         self.population = []
-        for i in range(cells):
+        for _ in range(cells):
             start_location: Point = self.random_location()
             start_direction: Point = self.random_direction(speed)
             cell: Cell = Cell(start_location, start_direction)
@@ -71,6 +71,7 @@ class Model:
         self.time += 1
         for cell in self.population:
             cell.tick()
+            self.enforce_bounds(cell)
 
     def random_location(self) -> Point:
         """Generate a random location."""
@@ -85,14 +86,23 @@ class Model:
         random_angle: float = 2.0 * pi * random()
         direction_x: float = cos(random_angle) * speed
         direction_y: float = sin(random_angle) * speed
-        return Point(0.0, 0.0)
+        return Point(direction_x, direction_y)
 
     def enforce_bounds(self, cell: Cell) -> None:
         """Cause a cell to 'bounce' if it goes out of bounds."""
         if cell.location.x > constants.MAX_X:
             cell.location.x = constants.MAX_X
             cell.direction.x *= -1.0
-            
+        if cell.location.y > constants.MAX_Y:
+            cell.location.y = constants.MAX_Y
+            cell.direction.y *= -1.0
+        if cell.location.x < constants.MIN_X:
+            cell.location.x = constants.MIN_X
+            cell.direction.x *= -1.0
+        if cell.location.y < constants.MIN_Y:
+            cell.location.y = constants.MIN_Y
+            cell.direction.y *= -1.0
+
 
     def is_complete(self) -> bool:
         """Method to indicate when the simulation is complete."""
